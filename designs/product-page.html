@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mid-Rise Thong — Vivea Athletics</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --sand: #E8DDD0; --coffee: #6B5750; --moss: #5C6B4D;
+    --rosewood: #A0786D; --black: #1A1A1A; --white: #FFF;
+    --off-white: #FAF7F2; --gray: #8A8A8A; --gray-light: #E5E5E5;
+  }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--black); background: var(--off-white); }
+  
+  .announcement { background: var(--black); color: var(--white); text-align: center; padding: 10px; font-size: 13px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: var(--white); border-bottom: 1px solid var(--gray-light); }
+  .nav-logo { font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+  .nav-logo span { color: var(--moss); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { text-decoration: none; color: var(--black); font-size: 14px; font-weight: 500; }
+  .nav-cart { cursor: pointer; position: relative; }
+  .cart-badge { position: absolute; top: -6px; right: -8px; background: var(--moss); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+  
+  .breadcrumb { padding: 16px 40px; font-size: 13px; color: var(--gray); }
+  .breadcrumb a { color: var(--gray); text-decoration: none; }
+  
+  .product-page { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1200px; margin: 0 auto; padding: 0 40px 80px; }
+  
+  /* GALLERY */
+  .gallery { position: sticky; top: 100px; }
+  .main-image { width: 100%; aspect-ratio: 1; background: var(--sand); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .main-image-inner { width: 70%; height: 60%; background: var(--coffee); border-radius: 50%; opacity: 0.6; }
+  .thumbnails { display: flex; gap: 12px; }
+  .thumb { width: 80px; height: 80px; background: var(--sand); border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+  .thumb.active { border-color: var(--black); }
+  .thumb:nth-child(2) { background: var(--coffee); }
+  .thumb:nth-child(3) { background: var(--moss); }
+  .thumb:nth-child(4) { background: var(--rosewood); }
+  
+  /* INFO */
+  .product-info h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+  .rating { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .stars { color: #F5A623; font-size: 16px; }
+  .rating-text { font-size: 14px; color: var(--gray); }
+  .price { font-size: 28px; font-weight: 700; margin-bottom: 24px; }
+  .price small { font-size: 14px; color: var(--gray); font-weight: 400; margin-left: 8px; text-decoration: line-through; }
+  
+  .section-label { font-size: 14px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  
+  /* COLOUR SELECTOR */
+  .colours { display: flex; gap: 12px; margin-bottom: 24px; }
+  .colour-option { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+  .colour-swatch { width: 40px; height: 40px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: border 0.2s; }
+  .colour-swatch.selected { border-color: var(--black); box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--black); }
+  .colour-name { font-size: 11px; color: var(--gray); }
+  
+  /* SIZE SELECTOR */
+  .sizes { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .size-btn { min-width: 48px; padding: 12px 16px; border: 2px solid var(--gray-light); background: var(--white); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .size-btn:hover { border-color: var(--black); }
+  .size-btn.selected { background: var(--black); color: var(--white); border-color: var(--black); }
+  .size-btn.disabled { color: var(--gray-light); cursor: not-allowed; text-decoration: line-through; }
+  .size-guide { font-size: 13px; color: var(--moss); text-decoration: underline; margin-bottom: 24px; display: block; }
+  
+  /* QUANTITY */
+  .qty-row { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .qty-selector { display: flex; align-items: center; border: 2px solid var(--gray-light); border-radius: 8px; overflow: hidden; }
+  .qty-btn { width: 40px; height: 44px; border: none; background: var(--white); font-size: 18px; cursor: pointer; }
+  .qty-btn:hover { background: var(--off-white); }
+  .qty-value { width: 48px; text-align: center; font-size: 16px; font-weight: 600; border: none; border-left: 2px solid var(--gray-light); border-right: 2px solid var(--gray-light); height: 44px; }
+  
+  /* CTA */
+  .cta-row { display: flex; gap: 12px; margin-bottom: 24px; }
+  .btn-add-cart { flex: 1; background: var(--black); color: var(--white); border: none; padding: 16px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 8px; transition: background 0.2s; }
+  .btn-add-cart:hover { background: var(--moss); }
+  .btn-wishlist { width: 52px; background: var(--white); border: 2px solid var(--gray-light); border-radius: 8px; cursor: pointer; font-size: 20px; }
+  
+  /* TRUST */
+  .trust-icons { display: flex; gap: 24px; padding: 24px 0; border-top: 1px solid var(--gray-light); border-bottom: 1px solid var(--gray-light); margin-bottom: 24px; }
+  .trust-item { font-size: 13px; color: var(--coffee); }
+  
+  /* DESCRIPTION */
+  .description { margin-bottom: 32px; }
+  .description h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  .description p { font-size: 15px; color: var(--coffee); line-height: 1.7; margin-bottom: 16px; }
+  .features-list { list-style: none; }
+  .features-list li { font-size: 14px; color: var(--coffee); padding: 6px 0; padding-left: 24px; position: relative; }
+  .features-list li::before { content: "✓"; position: absolute; left: 0; color: var(--moss); font-weight: 700; }
+  
+  /* BUNDLE CROSS-SELL */
+  .bundle-sell { background: var(--sand); padding: 24px; border-radius: 12px; margin-top: 32px; }
+  .bundle-sell h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .bundle-sell p { font-size: 14px; color: var(--coffee); margin-bottom: 16px; }
+  .bundle-sell .btn { background: var(--black); color: var(--white); border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  
+  @media (max-width: 768px) {
+    .product-page { grid-template-columns: 1fr; padding: 0 20px 40px; }
+    .nav-links { display: none; }
+    .product-info h1 { font-size: 28px; }
+    .gallery { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="announcement">🔥 <strong>LAUNCH OFFER</strong> — 10% off your first order + free shipping over $75</div>
+
+<nav class="nav">
+  <div class="nav-logo">VIVEA<span>.</span></div>
+  <div class="nav-links">
+    <a href="#">Shop</a>
+    <a href="#">About</a>
+    <a href="#">Reviews</a>
+    <a href="#">FAQ</a>
+  </div>
+  <div class="nav-cart">🛍️ <span class="cart-badge">0</span></div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="#">Home</a> / <a href="#">Shop</a> / Mid-Rise Thong
+</div>
+
+<div class="product-page">
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="main-image"><div class="main-image-inner"></div></div>
+    <div class="thumbnails">
+      <div class="thumb active"></div>
+      <div class="thumb"></div>
+      <div class="thumb"></div>
+      <div class="thumb"></div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="product-info">
+    <h1>Mid-Rise Thong</h1>
+    <div class="rating">
+      <span class="stars">⭐⭐⭐⭐⭐</span>
+      <span class="rating-text">4.8 (352 reviews)</span>
+    </div>
+    <div class="price">$24 <small>$30</small></div>
+
+    <!-- COLOUR -->
+    <div class="section-label">Colour: <strong style="text-transform: none; letter-spacing: 0;">Sand</strong></div>
+    <div class="colours">
+      <div class="colour-option"><div class="colour-swatch selected" style="background:#E8DDD0"></div><span class="colour-name">Sand</span></div>
+      <div class="colour-option"><div class="colour-swatch" style="background:#1A1A1A"></div><span class="colour-name">Black</span></div>
+      <div class="colour-option"><div class="colour-swatch" style="background:#6B5750"></div><span class="colour-name">Coffee</span></div>
+      <div class="colour-option"><div class="colour-swatch" style="background:#5C6B4D"></div><span class="colour-name">Moss</span></div>
+      <div class="colour-option"><div class="colour-swatch" style="background:#A0786D"></div><span class="colour-name">Rosewood</span></div>
+    </div>
+
+    <!-- SIZE -->
+    <div class="section-label">Size</div>
+    <div class="sizes">
+      <button class="size-btn">XS</button>
+      <button class="size-btn selected">S</button>
+      <button class="size-btn">M</button>
+      <button class="size-btn">L</button>
+      <button class="size-btn">XL</button>
+      <button class="size-btn">2XL</button>
+      <button class="size-btn">3XL</button>
+    </div>
+    <a href="#" class="size-guide">📏 Size Guide</a>
+
+    <!-- QUANTITY -->
+    <div class="qty-row">
+      <div class="qty-selector">
+        <button class="qty-btn">−</button>
+        <input type="text" class="qty-value" value="1" readonly>
+        <button class="qty-btn">+</button>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-row">
+      <button class="btn-add-cart">Add to Cart — $24</button>
+      <button class="btn-wishlist">♡</button>
+    </div>
+
+    <!-- TRUST -->
+    <div class="trust-icons">
+      <div class="trust-item">🚚 Free shipping $75+</div>
+      <div class="trust-item">🔄 30-day returns</div>
+      <div class="trust-item">✅ PFAs Free</div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="description">
+      <h3>About the Mid-Rise Thong</h3>
+      <p>Our signature style. The Mid-Rise Thong offers moderate coverage with a seamless fit that disappears under leggings. Made with our patent-free 3D spacer fabric that provides full cameltoe-proof coverage while staying breathable and moisture-wicking.</p>
+      <ul class="features-list">
+        <li>Cameltoe-proof 3D spacer fabric</li>
+        <li>Moisture-wicking outer shell</li>
+        <li>Breathable cotton liner</li>
+        <li>Tagless and seamless</li>
+        <li>Roll-free waistband</li>
+        <li>PFAs Free certified</li>
+        <li>Available in XS–3XL</li>
+      </ul>
+    </div>
+
+    <!-- BUNDLE CROSS-SELL -->
+    <div class="bundle-sell">
+      <h3>💡 Save 10% with a Bundle</h3>
+      <p>Get the Essential Pack: 1 Mid-Rise + 1 High-Rise + 1 Bodysuit for $85.50 (was $95)</p>
+      <button class="btn">Shop Bundles</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
