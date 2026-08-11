@@ -10,6 +10,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        vivea: {
+          sand: "#E8DDD0",
+          coffee: "#6B5750",
+          moss: "#5C6B4D",
+          rosewood: "#A0786D",
+          black: "#1A1A1A",
+          "off-white": "#FAF7F2",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
